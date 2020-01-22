@@ -10,6 +10,7 @@
 import axios from 'axios';
 import {BSpinner, BBreadcrumb} from 'bootstrap-vue';
 import PoolTable from "../components/PoolTable";
+import ToastsErrors from "../mixins/ToastsErrors";
 
 export default {
   name: 'PoolList',
@@ -18,6 +19,7 @@ export default {
     'b-spinner': BSpinner,
     'pool-table': PoolTable,
   },
+  mixins: [ToastsErrors],
   data() {
     return {
       isLoading: false,
@@ -43,11 +45,7 @@ export default {
           .get('http://localhost:8819/api/pools');
         this.userPools = poolList.data;
       } catch (error) {
-        this.$bvToast.toast(error.response ? error.response.data.Message : error.message, {
-          title: 'Error',
-          autoHideDelay: 5000,
-          variant: 'danger',
-        });
+        this.errorToast(error);
       } finally {
         this.isLoading = false;
       }

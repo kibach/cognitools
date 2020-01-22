@@ -16,6 +16,7 @@
   import axios from "axios";
   import PoolInfo from "../components/PoolInfo";
   import PoolUsersTable from "../components/PoolUsersTable";
+  import ToastsErrors from "../mixins/ToastsErrors";
 
   export default {
     name: 'PoolView',
@@ -25,6 +26,7 @@
       'pool-info': PoolInfo,
       'pool-users-table': PoolUsersTable,
     },
+    mixins: [ToastsErrors],
     data() {
       return {
         isLoading: false,
@@ -69,11 +71,7 @@
           .get(`http://localhost:8819/api/pools/${this.poolId}/users`);
         this.users = userList.data;
       } catch (error) {
-        this.$bvToast.toast(error.response ? error.response.data.Message : error.message, {
-          title: 'Error',
-          autoHideDelay: 5000,
-          variant: 'danger',
-        });
+        this.errorToast(error);
       } finally {
         this.isLoading = false;
       }

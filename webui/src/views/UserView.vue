@@ -34,6 +34,7 @@
   import UserInfo from "../components/UserInfo";
   import ChangePasswordModal from "../components/ChangePasswordModal";
   import UserAttributeEditorTable from "../components/UserAttributeEditorTable";
+  import ToastsErrors from "../mixins/ToastsErrors";
 
   export default {
     name: 'UserView',
@@ -44,6 +45,7 @@
       'change-password-modal': ChangePasswordModal,
       'user-attribute-editor-table': UserAttributeEditorTable,
     },
+    mixins: [ToastsErrors],
     data() {
       return {
         isLoading: false,
@@ -84,13 +86,6 @@
       this.loadUser();
     },
     methods: {
-      errorToast(error) {
-        this.$bvToast.toast(error.response ? error.response.data.Message : error.message, {
-          title: 'Error',
-          autoHideDelay: 5000,
-          variant: 'danger',
-        });
-      },
       async loadUser() {
         try {
           this.isLoading = true;
