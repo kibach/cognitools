@@ -19,7 +19,7 @@
     />
 
     <change-password-modal
-      v-bind:new-password="newPassword"
+      new-password=""
       v-bind:change-password="changePassword"
       modal-id="bv-password-change"
     />
@@ -32,7 +32,7 @@
   import {BBreadcrumb, BSpinner} from "bootstrap-vue";
   import axios from "axios";
   import UserInfo from "../components/UserInfo";
-  import ChangePasswordModal from "../components/ChangePasswordModal";
+  import ChangePasswordModal from "../components/modals/ChangePasswordModal";
   import UserAttributeEditorTable from "../components/UserAttributeEditorTable";
   import ToastsErrors from "../mixins/ToastsErrors";
 
@@ -110,9 +110,9 @@
           this.isAttributesUpdating = false;
         }
       },
-      async changePassword() {
+      async changePassword(newPassword) {
         try {
-          const passwordUpdateRequest = { NewPassword: this.newPassword };
+          const passwordUpdateRequest = { NewPassword: newPassword };
           await axios
             .post(`http://localhost:8819/api/pools/${this.poolId}/users/${this.username}/change_password`, passwordUpdateRequest);
         } catch (error) {

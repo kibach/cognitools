@@ -4,7 +4,7 @@
       Change password
     </template>
     <b-form-input v-model="newPassword" placeholder="New password" type="password" />
-    <b-button class="mt-3" variant="primary" block @click="changePassword">Change</b-button>
+    <b-button class="mt-3" variant="primary" block @click="() => changePassword(newPassword)">Change</b-button>
   </b-modal>
 </template>
 
