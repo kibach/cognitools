@@ -18,6 +18,12 @@ type NewPasswordRequest struct {
 	NewPassword string `json:"NewPassword" required:"true"`
 }
 
+type CreateUserRequest struct {
+	Attributes []*cognitoIDP.AttributeType `json:"Attributes" required:"true"`
+	Username   string                      `json:"Username" required:"true"`
+	Password   string                      `json:"Password" required:"true"`
+}
+
 func openBrowser(url string) {
 	var err error
 
@@ -102,6 +108,33 @@ func main() {
 				c.JSON(200, gin.H{
 					"Users":           poolUsers.Users,
 					"PaginationToken": poolUsers.PaginationToken,
+				})
+			} else {
+				c.JSON(400, gin.H{
+					"Message": err.Error(),
+				})
+			}
+		})
+		api.POST("/pools/:poolId/users", func(c *gin.Context) {
+			var createUserRequest *CreateUserRequest
+			if err := c.ShouldBind(&createUserRequest); err != nil {
+				c.JSON(400, gin.H{
+					"Message": err.Error(),
+				})
+
+				return
+			}
+
+			opInput := cognitoIDP.AdminCreateUserInput{}
+			opInput.SetUserAttributes(createUserRequest.Attributes)
+			opInput.SetUsername(createUserRequest.Username)
+			opInput.SetTemporaryPassword(createUserRequest.Password)
+			opInput.SetUserPoolId(c.Param("poolId"))
+
+			result, err := cognito.AdminCreateUser(&opInput)
+			if err == nil {
+				c.JSON(200, gin.H{
+					"User": result.User,
 				})
 			} else {
 				c.JSON(400, gin.H{

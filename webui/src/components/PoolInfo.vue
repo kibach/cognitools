@@ -14,6 +14,7 @@
       <p><strong>Attributes to verify</strong>: {{ pool.Pool.AutoVerifiedAttributes.join(', ') }}</p>
       <p><strong>Created</strong>: {{ (new Date(pool.Pool.CreationDate)).toLocaleString() }}</p>
       <p><strong>Last modified</strong>: {{ (new Date(pool.Pool.LastModifiedDate)).toLocaleString() }}</p>
+      <p><b-button v-b-modal="modalId">Create user</b-button></p>
     </b-col>
   </b-row>
 </template>
@@ -22,6 +23,7 @@
   export default {
     name: 'PoolInfo',
     props: {
+      modalId: String,
       pool: {
         type: Object,
         validator(value) {
