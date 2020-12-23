@@ -2,6 +2,7 @@
 
 /pkged.go
 /cognitools
+/vendor
 
 # Editor directories and files
 .idea
