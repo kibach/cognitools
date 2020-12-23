@@ -1,4 +1,4 @@
-module cognitools
+module github.com/kibach/cognitools
 
 go 1.13
 
