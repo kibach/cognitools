@@ -3,7 +3,11 @@
     <b-table striped hover :items="user.User.Attributes" :fields="tableColumns">
       <template v-slot:cell(Value)="row" v-bind:poolId="poolId">
         <b-form-input v-if="row.item.Name !== 'sub'" v-model="row.item.Value" />
-        <span v-if="row.item.Name === 'sub'">{{ row.item.Value }}</span>
+
+        <span style="font-family: monospace; font-size: larger;" v-if="row.item.Name === 'sub'">
+          {{ row.item.Value }}
+          <copy-to-clipboard-button :valueToCopy="row.item.Value" />
+        </span>
       </template>
     </b-table>
     <b-row class="info-pane">
@@ -17,6 +21,7 @@
 <script>
   import {BFormInput, BTable} from "bootstrap-vue";
   import SpinningButton from "./primitive/SpinningButton";
+  import CopyToClipboardButton from './primitive/CopyToClipboardButton.vue';
 
   export default {
     name: 'UserAttributeEditorTable',
@@ -34,6 +39,7 @@
     components: {
       'b-table': BTable,
       'b-form-input': BFormInput,
+      'copy-to-clipboard-button': CopyToClipboardButton,
       'spinning-button': SpinningButton,
     },
     data() {
