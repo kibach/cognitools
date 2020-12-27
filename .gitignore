@@ -1,7 +1,7 @@
 .DS_Store
 
 /pkged.go
-/cognitools
+/build/*
 /vendor
 
 # Editor directories and files
