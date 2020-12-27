@@ -57,13 +57,15 @@
         user: {
           User: {
             Username: '',
-            MFAOptions: [],
             UserAttributes: [],
             UserStatus: '',
             Enabled: false,
             UserCreateDate: '',
             UserLastModifiedDate: '',
-            PreferredMfaSetting: {},
+          },
+          MFAPreferences: {
+            EnabledOptions: [],
+            PreferedOption: '',
           }
         },
         breadcrumbs: [
@@ -101,7 +103,7 @@
       async updateAttributes() {
         try {
           this.isAttributesUpdating = true;
-          const updatableAttributes = this.user.User.UserAttributes.filter(attr => attr.Name !== 'sub');
+          const updatableAttributes = this.user.User.Attributes.filter(attr => attr.Name !== 'sub');
           await axios
             .post(`http://localhost:8819/api/pools/${this.poolId}/users/${this.username}/attributes`, updatableAttributes);
         } catch (error) {

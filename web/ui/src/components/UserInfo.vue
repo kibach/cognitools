@@ -12,7 +12,7 @@
       </p>
     </b-col>
     <b-col sm="4">
-      <p><strong>MFA via</strong>: {{ user.User.MFAOptions ? user.User.MFAOptions.map(op => op.AttributeName).join(', ') : 'Disabled' }}</p>
+      <p><strong>MFA via</strong>: {{ user.MFAPreferences.EnabledOptions ? user.MFAPreferences.EnabledOptions.map(op => op.AttributeName).join(', ') : 'Disabled' }}</p>
       <p><strong>Created</strong>: {{ (new Date(user.User.UserCreateDate)).toLocaleString() }}</p>
       <p><strong>Last modified</strong>: {{ (new Date(user.User.UserLastModifiedDate)).toLocaleString() }}</p>
     </b-col>
