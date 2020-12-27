@@ -1,16 +1,27 @@
 package restful
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/kibach/cognitools/pkg/cognito_client"
+	"github.com/kibach/cognitools/pkg/cognitoclient"
 )
 
-func CreateBaseRestfulServer() *gin.Engine {
-	client := cognito_client.NewClient()
+func addCorsMiddleware(r *gin.Engine) {
+	r.Use(cors.New(cors.Config{
+		AllowMethods: []string{"GET", "POST"},
+		AllowHeaders: []string{"Content-Type"},
+		AllowOriginFunc: func(origin string) bool {
+			return true
+		},
+	}))
+}
+
+func CreateBaseRestfulServer(middleware ...gin.HandlerFunc) *gin.Engine {
+	client := cognitoclient.NewClient()
 
 	r := gin.Default()
 
-	api := r.Group("/api")
+	api := r.Group("/api", middleware...)
 	{
 		api.GET("/ping", func(c *gin.Context) {
 			c.JSON(200, gin.H{
@@ -41,7 +52,7 @@ func CreateBaseRestfulServer() *gin.Engine {
 			}, err)
 		})
 		api.POST("/pools/:poolId/users", func(c *gin.Context) {
-			var createUserRequest *cognito_client.CreateUserRequest
+			var createUserRequest *cognitoclient.CreateUserRequest
 			if err := mustBindOrJSONError(c, &createUserRequest); err != nil {
 				return
 			}
@@ -64,7 +75,7 @@ func CreateBaseRestfulServer() *gin.Engine {
 			}, err)
 		})
 		api.POST("/pools/:poolId/users/:username/attributes", func(c *gin.Context) {
-			var updatedAttributeList cognito_client.UserAttributeList
+			var updatedAttributeList cognitoclient.UserAttributeList
 			if err := mustBindOrJSONError(c, &updatedAttributeList); err != nil {
 				return
 			}
@@ -77,7 +88,7 @@ func CreateBaseRestfulServer() *gin.Engine {
 			jsonOrError(c, gin.H{}, err)
 		})
 		api.POST("/pools/:poolId/users/:username/change_password", func(c *gin.Context) {
-			var newPasswordRequest cognito_client.NewPasswordRequest
+			var newPasswordRequest cognitoclient.NewPasswordRequest
 			if err := mustBindOrJSONError(c, &newPasswordRequest); err != nil {
 				return
 			}

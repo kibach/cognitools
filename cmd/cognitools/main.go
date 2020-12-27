@@ -33,14 +33,14 @@ func openBrowser(url string) {
 	}
 }
 
-func addCorsMiddleware(r *gin.Engine) {
-	r.Use(cors.New(cors.Config{
+func createCorsMiddleware() gin.HandlerFunc {
+	return cors.New(cors.Config{
 		AllowMethods: []string{"GET", "POST"},
 		AllowHeaders: []string{"Content-Type"},
 		AllowOriginFunc: func(origin string) bool {
 			return true
 		},
-	}))
+	})
 }
 
 func addWebUiRoutes(r *gin.Engine) {
@@ -49,10 +49,10 @@ func addWebUiRoutes(r *gin.Engine) {
 		if path == "/" {
 			path = "/index.html"
 		}
-		path = "/webui/dist" + path
+		path = "/web/ui/dist" + path
 		f, err := pkger.Open(path)
 		if err != nil {
-			f, err = pkger.Open("/webui/dist/index.html")
+			f, err = pkger.Open("/web/ui/dist/index.html")
 			if err != nil {
 				c.JSON(500, gin.H{
 					"Message": err.Error(),
@@ -79,8 +79,7 @@ func addWebUiRoutes(r *gin.Engine) {
 
 func main() {
 	openBrowser("http://127.0.0.1:8819")
-	r := restful.CreateBaseRestfulServer()
-	addCorsMiddleware(r)
+	r := restful.CreateBaseRestfulServer(createCorsMiddleware())
 	addWebUiRoutes(r)
 	err := r.Run("127.0.0.1:8819")
 	if err != nil {
