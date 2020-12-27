@@ -1,8 +1,6 @@
-package cognito_client
+package cognitoclient
 
 import (
-	"fmt"
-
 	"github.com/aws/aws-sdk-go/aws/session"
 	cognitoIDP "github.com/aws/aws-sdk-go/service/cognitoidentityprovider"
 )
@@ -33,8 +31,6 @@ func (c *CognitoClient) ListPools() ([]*cognitoIDP.UserPoolDescriptionType, erro
 	if err != nil {
 		return nil, err
 	}
-
-	fmt.Printf("NextToken %s", *response.NextToken)
 
 	return response.UserPools, err
 }

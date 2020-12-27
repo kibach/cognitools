@@ -1,4 +1,4 @@
-package cognito_client
+package cognitoclient
 
 import (
 	cognitoIDP "github.com/aws/aws-sdk-go/service/cognitoidentityprovider"
