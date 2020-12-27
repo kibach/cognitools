@@ -2,6 +2,7 @@
 
 /pkged.go
 /build/*
+/bin/*
 /vendor
 
 # Editor directories and files

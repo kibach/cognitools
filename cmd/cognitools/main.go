@@ -83,6 +83,6 @@ func main() {
 	addWebUiRoutes(r)
 	err := r.Run("127.0.0.1:8819")
 	if err != nil {
-		fmt.Printf(err.Error())
+		fmt.Printf("%s", err.Error())
 	}
 }

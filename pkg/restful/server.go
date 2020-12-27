@@ -1,20 +1,9 @@
 package restful
 
 import (
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/kibach/cognitools/pkg/cognitoclient"
 )
-
-func addCorsMiddleware(r *gin.Engine) {
-	r.Use(cors.New(cors.Config{
-		AllowMethods: []string{"GET", "POST"},
-		AllowHeaders: []string{"Content-Type"},
-		AllowOriginFunc: func(origin string) bool {
-			return true
-		},
-	}))
-}
 
 func CreateBaseRestfulServer(middleware ...gin.HandlerFunc) *gin.Engine {
 	client := cognitoclient.NewClient()
