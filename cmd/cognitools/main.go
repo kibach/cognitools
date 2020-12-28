@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"mime"
+	"os"
 	"os/exec"
 	"path/filepath"
 	"runtime"
@@ -12,6 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/kibach/cognitools/pkg/restful"
 	"github.com/markbates/pkger"
+	"github.com/urfave/cli/v2"
 )
 
 func openBrowser(url string) {
@@ -78,11 +80,50 @@ func addWebUIRoutes(r *gin.Engine) {
 }
 
 func main() {
-	openBrowser("http://127.0.0.1:36836")
-	r := restful.CreateBaseRestfulServer(createCORSMiddleware())
-	addWebUIRoutes(r)
-	err := r.Run("127.0.0.1:36836")
+	app := &cli.App{
+		Name:  "cognitools",
+		Usage: "app that adds missing features to native AWS Cognito UI",
+		Flags: []cli.Flag{
+			&cli.StringFlag{
+				Name:  "listen",
+				Value: "127.0.0.1:36836",
+				Usage: "address to bind a web server",
+			},
+			&cli.BoolFlag{
+				Name:  "no-open-browser",
+				Value: false,
+				Usage: "don't open browser with the binded address after server startup",
+			},
+			&cli.BoolFlag{
+				Name:  "no-ui",
+				Value: false,
+				Usage: "don't serve UI (API-only mode)",
+			},
+		},
+		Action: func(c *cli.Context) error {
+			listenOn := c.String("listen")
+
+			if !c.Bool("no-open-browser") {
+				openBrowser("http://" + listenOn)
+			}
+
+			r := restful.CreateBaseRestfulServer(createCORSMiddleware())
+
+			if !c.Bool("no-ui") {
+				addWebUIRoutes(r)
+			}
+
+			err := r.Run(listenOn)
+			if err != nil {
+				fmt.Printf("%s", err.Error())
+			}
+
+			return nil
+		},
+	}
+
+	err := app.Run(os.Args)
 	if err != nil {
-		fmt.Printf("%s", err.Error())
+		log.Fatal(err)
 	}
 }
