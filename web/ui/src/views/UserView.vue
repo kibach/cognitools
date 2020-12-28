@@ -30,7 +30,7 @@
 
 <script>
   import {BBreadcrumb, BSpinner} from "bootstrap-vue";
-  import axios from "axios";
+  import APIClient from "../lib/client";
   import UserInfo from "../components/UserInfo";
   import ChangePasswordModal from "../components/modals/ChangePasswordModal";
   import UserAttributeEditorTable from "../components/UserAttributeEditorTable";
@@ -91,8 +91,8 @@
       async loadUser() {
         try {
           this.isLoading = true;
-          const userData = await axios
-            .get(`http://localhost:8819/api/pools/${this.poolId}/users/${this.username}`);
+          const userData = await APIClient
+            .get(`/pools/${this.poolId}/users/${this.username}`);
           this.user = userData.data;
         } catch (error) {
           this.errorToast(error);
@@ -104,8 +104,8 @@
         try {
           this.isAttributesUpdating = true;
           const updatableAttributes = this.user.User.Attributes.filter(attr => attr.Name !== 'sub');
-          await axios
-            .post(`http://localhost:8819/api/pools/${this.poolId}/users/${this.username}/attributes`, updatableAttributes);
+          await APIClient
+            .post(`/pools/${this.poolId}/users/${this.username}/attributes`, updatableAttributes);
         } catch (error) {
           this.errorToast(error);
         } finally {
@@ -115,8 +115,8 @@
       async changePassword(newPassword) {
         try {
           const passwordUpdateRequest = { NewPassword: newPassword };
-          await axios
-            .post(`http://localhost:8819/api/pools/${this.poolId}/users/${this.username}/change_password`, passwordUpdateRequest);
+          await APIClient
+            .post(`/pools/${this.poolId}/users/${this.username}/change_password`, passwordUpdateRequest);
         } catch (error) {
           this.errorToast(error);
         } finally {
@@ -127,8 +127,8 @@
       async confirmSignup() {
         try {
           this.isSignupConfirming = true;
-          await axios
-            .post(`http://localhost:8819/api/pools/${this.poolId}/users/${this.username}/confirm_signup`);
+          await APIClient
+            .post(`/pools/${this.poolId}/users/${this.username}/confirm_signup`);
           this.user.User.UserStatus = 'CONFIRMED';
         } catch (error) {
           this.errorToast(error);

@@ -19,7 +19,7 @@
 
 <script>
   import {BBreadcrumb, BSpinner} from "bootstrap-vue";
-  import axios from "axios";
+  import APIClient from "../lib/client";
   import PoolInfo from "../components/PoolInfo";
   import PoolUsersTable from "../components/PoolUsersTable";
   import ToastsErrors from "../mixins/ToastsErrors";
@@ -72,8 +72,8 @@
     methods: {
       async createUser(username, password, attributes) {
         try {
-          const user = await axios
-            .post(`http://localhost:8819/api/pools/${this.poolId}/users`, {
+          const user = await APIClient
+            .post(`/pools/${this.poolId}/users`, {
               Username: username,
               Password: password,
               Attributes: attributes,
@@ -92,12 +92,12 @@
     async mounted() {
       try {
         this.isLoading = true;
-        const poolData = await axios
-          .get(`http://localhost:8819/api/pools/${this.poolId}`);
+        const poolData = await APIClient
+          .get(`/pools/${this.poolId}`);
         this.pool = poolData.data;
 
-        const userList = await axios
-          .get(`http://localhost:8819/api/pools/${this.poolId}/users`);
+        const userList = await APIClient
+          .get(`/pools/${this.poolId}/users`);
         this.users = userList.data;
       } catch (error) {
         this.errorToast(error);
