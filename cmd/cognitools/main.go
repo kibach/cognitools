@@ -33,7 +33,7 @@ func openBrowser(url string) {
 	}
 }
 
-func createCorsMiddleware() gin.HandlerFunc {
+func createCORSMiddleware() gin.HandlerFunc {
 	return cors.New(cors.Config{
 		AllowMethods: []string{"GET", "POST"},
 		AllowHeaders: []string{"Content-Type"},
@@ -43,7 +43,7 @@ func createCorsMiddleware() gin.HandlerFunc {
 	})
 }
 
-func addWebUiRoutes(r *gin.Engine) {
+func addWebUIRoutes(r *gin.Engine) {
 	r.NoRoute(func(c *gin.Context) {
 		path := c.Request.RequestURI
 		if path == "/" {
@@ -78,10 +78,10 @@ func addWebUiRoutes(r *gin.Engine) {
 }
 
 func main() {
-	openBrowser("http://127.0.0.1:8819")
-	r := restful.CreateBaseRestfulServer(createCorsMiddleware())
-	addWebUiRoutes(r)
-	err := r.Run("127.0.0.1:8819")
+	openBrowser("http://127.0.0.1:36836")
+	r := restful.CreateBaseRestfulServer(createCORSMiddleware())
+	addWebUIRoutes(r)
+	err := r.Run("127.0.0.1:36836")
 	if err != nil {
 		fmt.Printf("%s", err.Error())
 	}
