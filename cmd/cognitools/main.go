@@ -113,12 +113,7 @@ func main() {
 				addWebUIRoutes(r)
 			}
 
-			err := r.Run(listenOn)
-			if err != nil {
-				fmt.Printf("%s", err.Error())
-			}
-
-			return nil
+			return r.Run(listenOn)
 		},
 	}
 
