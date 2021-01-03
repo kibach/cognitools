@@ -36,13 +36,7 @@ func openBrowser(url string) {
 }
 
 func createCORSMiddleware() gin.HandlerFunc {
-	return cors.New(cors.Config{
-		AllowMethods: []string{"GET", "POST"},
-		AllowHeaders: []string{"Content-Type"},
-		AllowOriginFunc: func(origin string) bool {
-			return true
-		},
-	})
+	return cors.Default()
 }
 
 func addWebUIRoutes(r *gin.Engine) {

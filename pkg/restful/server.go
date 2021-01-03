@@ -9,8 +9,9 @@ func CreateBaseRestfulServer(middleware ...gin.HandlerFunc) *gin.Engine {
 	client := cognitoclient.NewClient()
 
 	r := gin.Default()
+	r.Use(middleware...)
 
-	api := r.Group("/api", middleware...)
+	api := r.Group("/api")
 	{
 		api.GET("/ping", func(c *gin.Context) {
 			c.JSON(200, gin.H{
