@@ -1,10 +1,8 @@
 <template>
-  <span>
+  <b-button @click="click" v-bind:variant="variant">
     <b-spinner small class="button-spinner" variant="primary" label="Processing" v-show="isSpinning" />
-    <b-button @click="click" v-bind:variant="variant">
-      <slot />
-    </b-button>
-  </span>
+    <slot />
+  </b-button>
 </template>
 
 <script>

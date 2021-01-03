@@ -35,6 +35,7 @@
   import ChangePasswordModal from "../components/modals/ChangePasswordModal";
   import UserAttributeEditorTable from "../components/UserAttributeEditorTable";
   import ToastsErrors from "../mixins/ToastsErrors";
+  import {getUpdatableAttributes} from "../lib/utils/attributes";
 
   export default {
     name: 'UserView',
@@ -103,7 +104,7 @@
       async updateAttributes() {
         try {
           this.isAttributesUpdating = true;
-          const updatableAttributes = this.user.User.Attributes.filter(attr => attr.Name !== 'sub');
+          const updatableAttributes = getUpdatableAttributes(this.user.User.Attributes);
           await APIClient
             .post(`/pools/${this.poolId}/users/${this.username}/attributes`, updatableAttributes);
         } catch (error) {
