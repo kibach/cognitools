@@ -1,7 +1,7 @@
 # Hooks
 CLEAN_TARGETS = clean-pkged
 BUILD_RELEASE_DEP_TARGETS = bin/pkger
-PRE_BUILD_RELEASE_TARGETS = $(patsubst cmd/%,cmd/%/pkged.go,$(wildcard cmd/*))
+PRE_BUILD_RELEASE_TARGETS = webui $(patsubst cmd/%,cmd/%/pkged.go,$(wildcard cmd/*))
 BUILD_DEBUG_DEP_TARGETS = bin/pkger
 PRE_BUILD_DEBUG_TARGETS = $(patsubst cmd/%,cmd/%/pkged.go,$(wildcard cmd/*))
 
@@ -21,3 +21,6 @@ clean-pkged:
 .PHONY: generate
 generate:
 	go generate -x ./...
+
+webui:
+	yarn --cwd web/ui/ build
