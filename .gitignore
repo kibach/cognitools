@@ -1,5 +1,6 @@
 .DS_Store
 
+/cmd/**/pkged.go
 /pkged.go
 /build/*
 /bin/*

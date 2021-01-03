@@ -40,6 +40,9 @@ func createCORSMiddleware() gin.HandlerFunc {
 }
 
 func addWebUIRoutes(r *gin.Engine) {
+	pkger.Include("/web/ui/dist/favicon.ico")
+	r.StaticFS("/css", pkger.Dir("/web/ui/dist/css"))
+	r.StaticFS("/js", pkger.Dir("/web/ui/dist/js"))
 	r.NoRoute(func(c *gin.Context) {
 		path := c.Request.RequestURI
 		if path == "/" {
