@@ -2,8 +2,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import Home from '../views/PoolList.vue';
-import UserPool from "../views/PoolView";
-import UserView from "../views/UserView";
+import UserPool from '../views/PoolView';
+import UserView from '../views/UserView';
 
 Vue.use(VueRouter);
 
@@ -11,7 +11,7 @@ const routes = [
   {
     path: '/',
     name: 'user-pools',
-    component: Home
+    component: Home,
   },
   {
     path: '/pool/:poolId',

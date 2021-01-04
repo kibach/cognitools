@@ -5,15 +5,15 @@
 </template>
 
 <script>
-  import {BIconClipboard} from 'bootstrap-vue';
+import { BIconClipboard } from 'bootstrap-vue';
 
-  export default {
-    name: 'CopyToClipboardButton',
-    props: {
-      valueToCopy: String,
-    },
-    components: {
-      'b-icon-clipboard': BIconClipboard,
-    }
-  }
+export default {
+  name: 'CopyToClipboardButton',
+  props: {
+    valueToCopy: String,
+  },
+  components: {
+    'b-icon-clipboard': BIconClipboard,
+  },
+};
 </script>

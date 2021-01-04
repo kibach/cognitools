@@ -8,9 +8,9 @@
 
 <script>
 import APIClient from '../lib/client';
-import {BSpinner, BBreadcrumb} from 'bootstrap-vue';
-import PoolTable from "../components/PoolTable";
-import ToastsErrors from "../mixins/ToastsErrors";
+import { BSpinner, BBreadcrumb } from 'bootstrap-vue';
+import PoolTable from '../components/PoolTable';
+import ToastsErrors from '../mixins/ToastsErrors';
 
 export default {
   name: 'PoolList',
@@ -41,15 +41,14 @@ export default {
     async loadPools() {
       try {
         this.isLoading = true;
-        const poolList = await APIClient
-          .get('/pools');
+        const poolList = await APIClient.get('/pools');
         this.userPools = poolList.data;
       } catch (error) {
         this.errorToast(error);
       } finally {
         this.isLoading = false;
       }
-    }
+    },
   },
-}
+};
 </script>

@@ -6,18 +6,18 @@
 </template>
 
 <script>
-  export default {
-    name: 'SpinningButton',
-    props: {
-      isSpinning: Boolean,
-      click: Function,
-      variant: String,
-    }
-  }
+export default {
+  name: 'SpinningButton',
+  props: {
+    isSpinning: Boolean,
+    click: Function,
+    variant: String,
+  },
+};
 </script>
 
 <style scoped>
-  .button-spinner {
-    margin-right: 10px;
-  }
+.button-spinner {
+  margin-right: 10px;
+}
 </style>
