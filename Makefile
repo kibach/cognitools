@@ -23,4 +23,5 @@ generate:
 	go generate -x ./...
 
 webui:
-	yarn --cwd web/ui/ build
+	yarn --cwd ./web/ui/ install
+	yarn --cwd ./web/ui/ build
