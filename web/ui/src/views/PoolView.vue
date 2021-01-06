@@ -13,7 +13,7 @@
 
     <create-user-modal
       v-bind:register="createUser"
-      v-bind:required-attributes="pool.Pool.SchemaAttributes.filter(attr => attr.Required && attr.Name !== 'sub')"
+      v-bind:required-attributes="pool.Pool.SchemaAttributes.filter(attr => attr.Name !== 'sub')"
       modal-id="bv-create-user"
     />
   </div>
