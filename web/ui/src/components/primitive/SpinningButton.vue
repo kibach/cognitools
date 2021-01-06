@@ -1,5 +1,5 @@
 <template>
-  <b-button @click="click" v-bind:variant="variant">
+  <b-button @click="click" v-bind:variant="variant" v-bind:block="block">
     <b-spinner small class="button-spinner" variant="primary" label="Processing" v-show="isSpinning" />
     <slot />
   </b-button>
@@ -12,6 +12,7 @@ export default {
     isSpinning: Boolean,
     click: Function,
     variant: String,
+    block: Boolean,
   },
 };
 </script>
@@ -19,5 +20,6 @@ export default {
 <style scoped>
 .button-spinner {
   margin-right: 10px;
+  vertical-align: middle;
 }
 </style>

@@ -1,9 +1,15 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
     <b-breadcrumb :items="breadcrumbs" />
-    <pool-info v-bind:pool="pool" modal-id="bv-create-user" v-if="!isLoading" />
-    <pool-users-table v-bind:users="users" v-bind:pool-id="poolId" v-if="!isLoading" />
-    <b-spinner variant="primary" label="Loading" v-if="isLoading" />
+    <pool-info v-bind:pool="pool" modal-id="bv-create-user" v-if="!isUserListLoading" />
+    <b-spinner variant="primary" label="Loading" v-if="isHeaderLoading" />
+    <pool-users-table
+      v-bind:users="users"
+      v-bind:pool-id="poolId"
+      :on-load-more="() => loadUserList(users.PaginationToken)"
+      :show-load-more="!isUserListExhausted"
+      :is-busy="isUserListLoading"
+    />
 
     <create-user-modal
       v-bind:register="createUser"
@@ -35,7 +41,9 @@ export default {
   mixins: [ToastsErrors],
   data() {
     return {
-      isLoading: false,
+      isUserListLoading: false,
+      isHeaderLoading: false,
+      isUserListExhausted: false,
       poolId: this.$route.params.poolId,
       pool: {
         Pool: {
@@ -54,6 +62,7 @@ export default {
       },
       users: {
         Users: [],
+        PaginationToken: '',
       },
       breadcrumbs: [
         {
@@ -85,20 +94,41 @@ export default {
         this.errorToast(error);
       }
     },
+    async loadPoolInfo() {
+      try {
+        this.isHeaderLoading = true;
+        const poolData = await APIClient.get(`/pools/${this.poolId}`);
+        this.pool = poolData.data;
+      } catch (error) {
+        this.errorToast(error);
+      } finally {
+        this.isHeaderLoading = false;
+      }
+    },
+    async loadUserList(paginationToken = '') {
+      try {
+        if (this.isUserListExhausted) {
+          return;
+        }
+
+        this.isUserListLoading = true;
+        const userList = await APIClient.get(
+          `/pools/${this.poolId}/users?after=${encodeURIComponent(paginationToken) || ''}`
+        );
+        this.users.Users = this.users.Users.concat(userList.data.Users);
+        this.users.PaginationToken = userList.data.PaginationToken;
+
+        this.isUserListExhausted = !this.users.PaginationToken;
+      } catch (error) {
+        this.errorToast(error);
+      } finally {
+        this.isUserListLoading = false;
+      }
+    },
   },
   async mounted() {
-    try {
-      this.isLoading = true;
-      const poolData = await APIClient.get(`/pools/${this.poolId}`);
-      this.pool = poolData.data;
-
-      const userList = await APIClient.get(`/pools/${this.poolId}/users`);
-      this.users = userList.data;
-    } catch (error) {
-      this.errorToast(error);
-    } finally {
-      this.isLoading = false;
-    }
+    this.loadPoolInfo();
+    this.loadUserList();
   },
 };
 </script>
