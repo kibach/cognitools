@@ -1,5 +1,5 @@
 <template>
-  <b-button variant="outline-secondary" size="sm" v-clipboard="valueToCopy">
+  <b-button variant="outline-secondary" v-bind:size="size" v-clipboard="valueToCopy">
     <b-icon-clipboard></b-icon-clipboard>
   </b-button>
 </template>
@@ -11,6 +11,10 @@ export default {
   name: 'CopyToClipboardButton',
   props: {
     valueToCopy: String,
+    size: {
+      type: String,
+      default: 'sm',
+    },
   },
   components: {
     'b-icon-clipboard': BIconClipboard,

@@ -18,11 +18,11 @@
       </h3>
       <h6>
         <strong>ID</strong>: {{ pool.Pool.Id }}
-        <copy-to-clipboard-button :valueToCopy="pool.Pool.Id" />
+        <copy-to-clipboard-button class="size-xs" :valueToCopy="pool.Pool.Id" />
       </h6>
       <h6>
         <strong>ARN</strong>: {{ pool.Pool.Arn }}
-        <copy-to-clipboard-button :valueToCopy="pool.Pool.Arn" />
+        <copy-to-clipboard-button class="size-xs" :valueToCopy="pool.Pool.Arn" />
       </h6>
       <h6>
         <strong>Created</strong>:
@@ -85,5 +85,13 @@ export default {
 
 .pool-header {
   text-align: left;
+}
+
+.size-xs {
+  padding: 0.2rem 0.4rem;
+  font-size: 0.625rem;
+  line-height: 1.2;
+  border-radius: 0.2rem;
+  vertical-align: bottom;
 }
 </style>
