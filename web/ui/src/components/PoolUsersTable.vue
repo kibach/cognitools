@@ -17,15 +17,14 @@
             name: 'user-view',
             params: { poolId: poolId, username: row.item.Username },
           }"
-          class="mr-1"
-        >
+          class="mr-1">
           View
         </b-button>
       </template>
     </b-table>
-    <spinning-button block variant="outline-primary" :click="onLoadMore" :is-spinning="isBusy" v-if="showLoadMore"
-      >Load more</spinning-button
-    >
+    <spinning-button block variant="outline-primary" :click="onLoadMore" :is-spinning="isBusy" v-if="showLoadMore">
+      Load more
+    </spinning-button>
   </div>
 </template>
 

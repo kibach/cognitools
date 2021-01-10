@@ -32,9 +32,9 @@
         <spinning-button
           v-bind:is-spinning="isSignupConfirming"
           v-bind:click="confirmSignup"
-          v-if="user.User.UserStatus === 'UNCONFIRMED'"
-          >Confirm</spinning-button
-        >
+          v-if="user.User.UserStatus === 'UNCONFIRMED'">
+          Confirm
+        </spinning-button>
       </b-button-group>
     </b-col>
   </b-row>

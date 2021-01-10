@@ -13,9 +13,9 @@
       <b-form-input v-bind:placeholder="attribute.Name" type="text" v-model="attributes[attribute.Name]" />
     </b-form-group>
 
-    <b-button @click="() => register(username, password, getAttributeList())" block class="mt-3" variant="primary"
-      >Create</b-button
-    >
+    <b-button @click="() => register(username, password, getAttributeList())" block class="mt-3" variant="primary">
+      Create
+    </b-button>
   </b-modal>
 </template>
 

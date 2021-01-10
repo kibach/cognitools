@@ -12,9 +12,9 @@
     </b-table>
     <b-row class="info-pane">
       <b-col sm="4" offset-sm="8" class="text-right">
-        <spinning-button v-bind:is-spinning="isAttributesUpdating" v-bind:click="updateAttributes" variant="primary"
-          >Update attributes</spinning-button
-        >
+        <spinning-button v-bind:is-spinning="isAttributesUpdating" v-bind:click="updateAttributes" variant="primary">
+          Update attributes
+        </spinning-button>
       </b-col>
     </b-row>
   </div>
