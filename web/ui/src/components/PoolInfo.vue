@@ -6,13 +6,15 @@
         <span
           v-b-tooltip
           title="Users can register themselves"
-          v-if="!pool.Pool.AdminCreateUserConfig.AllowAdminCreateUserOnly">
+          v-if="!pool.Pool.AdminCreateUserConfig.AllowAdminCreateUserOnly"
+        >
           <b-icon-person-check />
         </span>
         <span
           v-b-tooltip
           title="Users cannot register themselves"
-          v-if="pool.Pool.AdminCreateUserConfig.AllowAdminCreateUserOnly">
+          v-if="pool.Pool.AdminCreateUserConfig.AllowAdminCreateUserOnly"
+        >
           <b-icon-person-x />
         </span>
       </h3>

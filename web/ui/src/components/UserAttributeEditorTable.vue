@@ -44,6 +44,15 @@ export default {
     'copy-to-clipboard-button': CopyToClipboardButton,
     'spinning-button': SpinningButton,
   },
+  mounted() {
+    const va = (this.user.User.Attributes || []).find(item => item.Name === 'phone_number_verified');
+    if (!va) {
+      (this.user.User.Attributes || []).push({
+        Name: 'phone_number_verified',
+        Value: 'false',
+      });
+    }
+  },
   data() {
     return {
       tableColumns: [
