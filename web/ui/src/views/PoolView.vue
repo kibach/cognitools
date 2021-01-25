@@ -1,8 +1,9 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
     <b-breadcrumb :items="breadcrumbs" />
-    <pool-info v-bind:pool="pool" modal-id="bv-create-user" v-if="!isUserListLoading" />
+    <pool-info v-bind:pool="pool" modal-id="bv-create-user" v-if="!isHeaderLoading" />
     <b-spinner variant="primary" label="Loading" v-if="isHeaderLoading" />
+    <search-bar :on-search-change="searchQueryChange" />
     <pool-users-table
       v-bind:users="users"
       v-bind:pool-id="poolId"
@@ -28,6 +29,7 @@ import PoolInfo from '../components/PoolInfo';
 import PoolUsersTable from '../components/PoolUsersTable';
 import ToastsErrors from '../mixins/ToastsErrors';
 import CreateUserModal from '../components/modals/CreateUserModal';
+import SearchBar from '../components/SearchBar.vue';
 
 export default {
   name: 'PoolView',
@@ -37,6 +39,7 @@ export default {
     'pool-info': PoolInfo,
     'pool-users-table': PoolUsersTable,
     'create-user-modal': CreateUserModal,
+    'search-bar': SearchBar,
   },
   mixins: [ToastsErrors],
   data() {
@@ -44,6 +47,8 @@ export default {
       isUserListLoading: false,
       isHeaderLoading: false,
       isUserListExhausted: false,
+      searchField: '',
+      searchQuery: '',
       poolId: this.$route.params.poolId,
       pool: {
         Pool: {
@@ -112,8 +117,11 @@ export default {
         }
 
         this.isUserListLoading = true;
+        const after = encodeURIComponent(paginationToken) || '';
+        const filterName = encodeURIComponent(this.searchField) || '';
+        const filterValue = encodeURIComponent(this.searchQuery) || '';
         const userList = await APIClient.get(
-          `/pools/${this.poolId}/users?after=${encodeURIComponent(paginationToken) || ''}`
+          `/pools/${this.poolId}/users?after=${after}&filterName=${filterName}&filterValue=${filterValue}`
         );
         this.users.Users = this.users.Users.concat(userList.data.Users);
         this.users.PaginationToken = userList.data.PaginationToken;
@@ -123,6 +131,18 @@ export default {
         this.errorToast(error);
       } finally {
         this.isUserListLoading = false;
+      }
+    },
+    async searchQueryChange(searchField, searchQuery) {
+      const isRedundantChange = this.searchField !== searchField && !searchQuery;
+
+      this.searchField = searchField;
+      this.searchQuery = searchQuery;
+
+      if (!isRedundantChange) {
+        this.isUserListExhausted = false;
+        this.users.Users = [];
+        this.loadUserList();
       }
     },
   },
