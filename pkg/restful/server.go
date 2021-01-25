@@ -32,9 +32,11 @@ func CreateBaseRestfulServer(middleware ...gin.HandlerFunc) *gin.Engine {
 		})
 		api.GET("/pools/:poolId/users", func(c *gin.Context) {
 			paginationToken := c.Query("after")
+			filterName := c.Query("filterName")
+			filterValue := c.Query("filterValue")
 			poolUsers, newPaginationToken, err := client.
 				GetPool(c.Param("poolId")).
-				GetUsers(paginationToken)
+				GetUsers(paginationToken, filterName, filterValue)
 
 			jsonOrError(c, gin.H{
 				"Users":           poolUsers,

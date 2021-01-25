@@ -1,8 +1,18 @@
 package cognitoclient
 
 import (
+	"fmt"
+
 	cognitoIDP "github.com/aws/aws-sdk-go/service/cognitoidentityprovider"
 )
+
+func createFilterString(filterName string, filterValue string) string {
+	if filterName == "" || filterValue == "" {
+		return ""
+	}
+
+	return fmt.Sprintf("%s ^= \"%s\"", filterName, filterValue)
+}
 
 type CognitoPool struct {
 	IDP *cognitoIDP.CognitoIdentityProvider
@@ -28,10 +38,12 @@ func (p *CognitoPool) GetInfo() (*cognitoIDP.UserPoolType, error) {
 	return response.UserPool, nil
 }
 
-func (p *CognitoPool) GetUsers(paginationToken string) ([]*cognitoIDP.UserType, *string, error) {
+func (p *CognitoPool) GetUsers(paginationToken string, filterName string, filterValue string) ([]*cognitoIDP.UserType, *string, error) {
 	opInput := &cognitoIDP.ListUsersInput{}
 	opInput.SetUserPoolId(p.ID).
-		SetLimit(60)
+		SetLimit(60).
+		SetFilter(createFilterString(filterName, filterValue))
+
 	if paginationToken != "" {
 		opInput.SetPaginationToken(paginationToken)
 	}
