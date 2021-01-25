@@ -9,6 +9,8 @@ func jsonOrError(c *gin.Context, data gin.H, err error) {
 		c.JSON(400, gin.H{
 			"Message": err.Error(),
 		})
+
+		return
 	}
 
 	if len(data) == 0 {
